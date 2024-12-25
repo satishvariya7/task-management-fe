@@ -1,0 +1,66 @@
+.header-root {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  width: 100%;
+  min-height: 64px;
+}
+
+.btn-logout {
+  justify-content: end;
+  display: flex;
+  width: 50%;
+}
+
+.menu-item {
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 18px;
+}
+
+.login-root {
+  margin: 20px;
+  padding: 20px;
+  justify-content: center;
+}
+
+.login-text-header {
+  justify-content: center;
+  display: flex;
+}
+
+.space-between {
+  margin-bottom: 8px;
+}
+
+.error-massage {
+  color: rgb(199, 0, 0);
+  font-size: small;
+}
+
+.dropzone-root {
+  padding: 30px;
+  border: 1px dashed gray;
+  border-radius: 7px;
+  justify-content: center;
+  display: flex;
+  cursor: pointer;
+}
+
+.user-profile-picture {
+  max-width: 105px;
+  min-width: 30px;
+}
+
+.drag-drop {
+  align-items: center;
+  display: flex;
+}
+
+.profile {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
