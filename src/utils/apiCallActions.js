@@ -185,6 +185,16 @@ export const updateUserById = (id, data, navigate) => async (dispatch) => {
           timer: 1500,
         });
         dispatch(getUserById(id, navigate));
+        const loggedUser = localStorage.getItem("logged-user");
+        if (loggedUser) {
+          const newData = JSON.parse(loggedUser);
+          dispatch(
+            getUserProfile(
+              { email: newData?.email, password: newData?.password },
+              navigate
+            )
+          );
+        }
       } else
         Swal.fire({
           icon: "error",

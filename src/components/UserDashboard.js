@@ -185,9 +185,6 @@ const UserDashboard = (props) => {
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <Toolbar />
-        <Typography align="center" variant="h5">
-          Manage Task
-        </Typography>
         <Box sx={{ display: "flex", justifyContent: "flex-end", mb: 2 }}>
           <Button onClick={() => navigate("/create-task")} variant="contained">
             Create Task

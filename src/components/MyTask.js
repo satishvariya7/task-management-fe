@@ -189,11 +189,6 @@ const MyTask = (props) => {
         <Toolbar />
         <Grid2 container spacing={2}>
           <Grid2 size={12}>
-            <Typography align="center" variant="h5">
-              My Task
-            </Typography>
-          </Grid2>
-          <Grid2 size={12}>
             <MyTaskTableDashboard />
           </Grid2>
         </Grid2>
