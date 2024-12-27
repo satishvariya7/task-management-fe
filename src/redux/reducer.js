@@ -1,5 +1,6 @@
 import {
   SET_ALL_ACTIVITY,
+  SET_DISABLE_LOAD_MORE,
   SET_EXIST_EMAIL,
   SET_EXIST_PROJECT,
   SET_MY_TASK,
@@ -31,6 +32,7 @@ const initialTaskState = {
   editTask: null,
   myTask: null,
   activity: null,
+  loadMoreBtn: false,
 };
 
 export const userData = (state = initialState, action) => {
@@ -109,6 +111,11 @@ export const taskData = (state = initialTaskState, action) => {
       return {
         ...state,
         activity: payload,
+      };
+    case SET_DISABLE_LOAD_MORE:
+      return {
+        ...state,
+        loadMoreBtn: payload,
       };
     default:
       return state;

@@ -2,7 +2,7 @@ import { jwtDecode } from "jwt-decode";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const HOC = ({ component }) => {
+const HOC = ({ component }) => {  
   const navigate = useNavigate();
   const [isAuth, setIsAuth] = useState(false);
 

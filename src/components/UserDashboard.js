@@ -8,7 +8,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
   AccountCircle,
   AccountTree,
@@ -21,8 +21,7 @@ import { connect } from "react-redux";
 import { getUserProfile } from "../utils/apiCallActions";
 import { useEffect } from "react";
 import { handleLogout } from "../utils";
-import TableDashboard from "./TableDashboard";
-import { Button, Grid2, Typography } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import TaskDashboard from "./TaskDashboard";
 
 const drawerWidth = 240;
@@ -37,6 +36,10 @@ const UserDashboard = (props) => {
   const loggedUser = localStorage.getItem("logged-user")
     ? JSON.parse(localStorage.getItem("logged-user"))
     : null;
+
+  const location = useLocation();
+
+  const isActive = (path) => location.pathname === path;
 
   useEffect(() => {
     const loggedUser = localStorage.getItem("logged-user");
@@ -85,7 +88,14 @@ const UserDashboard = (props) => {
         <Box sx={{ overflow: "auto" }}>
           <List>
             <ListItem disablePadding>
-              <ListItemButton onClick={() => navigate("/my-task")}>
+              <ListItemButton
+                onClick={() => navigate("/my-task")}
+                sx={{
+                  backgroundColor: isActive("/my-task")
+                    ? "#e0e0e0"
+                    : "transparent",
+                }}
+              >
                 <ListItemIcon>
                   <Task />
                 </ListItemIcon>
@@ -93,7 +103,14 @@ const UserDashboard = (props) => {
               </ListItemButton>
             </ListItem>
             <ListItem disablePadding>
-              <ListItemButton onClick={() => navigate("/dashboard")}>
+              <ListItemButton
+                onClick={() => navigate("/dashboard")}
+                sx={{
+                  backgroundColor: isActive("/dashboard")
+                    ? "#e0e0e0"
+                    : "transparent",
+                }}
+              >
                 <ListItemIcon>
                   <AccountTree />
                 </ListItemIcon>
@@ -101,7 +118,14 @@ const UserDashboard = (props) => {
               </ListItemButton>
             </ListItem>
             <ListItem disablePadding>
-              <ListItemButton onClick={() => navigate("/activity")}>
+              <ListItemButton
+                onClick={() => navigate("/activity")}
+                sx={{
+                  backgroundColor: isActive("/activity")
+                    ? "#e0e0e0"
+                    : "transparent",
+                }}
+              >
                 <ListItemIcon>
                   <Preview />
                 </ListItemIcon>
@@ -111,7 +135,14 @@ const UserDashboard = (props) => {
             {(loggedUser?.category === "admin" ||
               loggedUser?.category === "project-manager") && (
               <ListItem disablePadding>
-                <ListItemButton onClick={() => navigate("/projects")}>
+                <ListItemButton
+                  onClick={() => navigate("/projects")}
+                  sx={{
+                    backgroundColor: isActive("/projects")
+                      ? "#e0e0e0"
+                      : "transparent",
+                  }}
+                >
                   <ListItemIcon>
                     <ManageSearch />
                   </ListItemIcon>
@@ -120,7 +151,14 @@ const UserDashboard = (props) => {
               </ListItem>
             )}
             <ListItem disablePadding>
-              <ListItemButton onClick={() => navigate("/profile")}>
+              <ListItemButton
+                onClick={() => navigate("/profile")}
+                sx={{
+                  backgroundColor: isActive("/profile")
+                    ? "#e0e0e0"
+                    : "transparent",
+                }}
+              >
                 <ListItemIcon>
                   <AccountCircle />
                 </ListItemIcon>
@@ -128,7 +166,14 @@ const UserDashboard = (props) => {
               </ListItemButton>
             </ListItem>
             <ListItem disablePadding>
-              <ListItemButton onClick={() => handleLogout(navigate)}>
+              <ListItemButton
+                onClick={() => handleLogout(navigate)}
+                sx={{
+                  backgroundColor: isActive("/logout")
+                    ? "#e0e0e0"
+                    : "transparent",
+                }}
+              >
                 <ListItemIcon>
                   <Logout color="error" />
                 </ListItemIcon>
@@ -140,24 +185,15 @@ const UserDashboard = (props) => {
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <Toolbar />
-        <Grid2 container spacing={2}>
-          <Grid2 size={12}>
-            <Typography align="center" variant="h5">
-              Manage Task
-            </Typography>
-          </Grid2>
-          <Grid2 size={12} className="d-flex justify-content-end">
-            <Button
-              onClick={() => navigate("/create-task")}
-              variant="contained"
-            >
-              Create Task
-            </Button>
-          </Grid2>
-          <Grid2 size={12}>
-            <TaskDashboard />
-          </Grid2>
-        </Grid2>
+        <Typography align="center" variant="h5">
+          Manage Task
+        </Typography>
+        <Box sx={{ display: "flex", justifyContent: "flex-end", mb: 2 }}>
+          <Button onClick={() => navigate("/create-task")} variant="contained">
+            Create Task
+          </Button>
+        </Box>
+        <TaskDashboard />
       </Box>
     </Box>
   );

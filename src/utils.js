@@ -14,6 +14,7 @@ export const SET_MY_TASK = "SET_MY_TASK";
 export const SET_SINGLE_TASK = "SET_SINGLE_TASK";
 
 export const SET_ALL_ACTIVITY = "SET_ALL_ACTIVITY";
+export const SET_DISABLE_LOAD_MORE = "SET_DISABLE_LOAD_MORE";
 
 export const EMAIL_EXPRESSION =
   /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -71,13 +72,19 @@ export const GET_ALL_TASKS = `http://localhost:8000/task/all`;
 export const GET_TASK_BY_ID = (id) => `http://localhost:8000/task/${id}`;
 export const UPDATE_TASK_BY_ID = (id) =>
   `http://localhost:8000/task/update/${id}`;
-export const GET_MY_TASKS = (id) => `http://localhost:8000/task/my-task/${id}`;
+export const GET_MY_TASKS = (id, value) => {
+  const newValue = value ? value : "all";
+  return `http://localhost:8000/task/my-task/${id}/${newValue}`;
+};
 export const DELETE_TASK_BY_ID = (id, userId) =>
   `http://localhost:8000/task/delete/${id}/${userId}`;
 export const GET_USER_TASK_BY_ID = (id) =>
   `http://localhost:8000/task/user/${id}`;
 
-export const GET_ALL_ACTIVITY = `http://localhost:8000/activity/all`;
+export const GET_ALL_ACTIVITY = (more) => {
+  if (more) return `http://localhost:8000/activity/all/${more}`;
+  else return `http://localhost:8000/activity/all/10`;
+};
 
 export const handleLogout = (navigate) => {
   Swal.fire({

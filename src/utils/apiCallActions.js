@@ -3,10 +3,8 @@ import Swal from "sweetalert2";
 import {
   ADD_PROJECT,
   ADD_TASK,
-  CHANGE_USERS_PASSWORD,
   DELETE_PROJECT_BY_ID,
   DELETE_TASK_BY_ID,
-  DELETE_USER_BY_ID,
   GET_ALL_ACTIVITY,
   GET_ALL_PROJECTS,
   GET_ALL_TASKS,
@@ -17,6 +15,7 @@ import {
   GET_USER_PROFILE,
   GET_USERS,
   SET_ALL_ACTIVITY,
+  SET_DISABLE_LOAD_MORE,
   SET_EXIST_EMAIL,
   SET_EXIST_PROJECT,
   SET_MY_TASK,
@@ -27,7 +26,6 @@ import {
   SET_TASKS,
   SET_USER_PROFILE,
   SET_USERS,
-  unauthorize,
   UPDATE_PROJECT_BY_ID,
   UPDATE_TASK_BY_ID,
   UPDATE_USER_BY_ID,
@@ -227,7 +225,9 @@ export const addProject = (data, setData, navigate) => async (dispatch) => {
   const loggedUser = localStorage.getItem("logged-user")
     ? JSON.parse(localStorage.getItem("logged-user"))
     : null;
+
   data.user = loggedUser?.name;
+  data.userId = loggedUser?._id;
   await axios
     .post(ADD_PROJECT, data, {
       headers: {
@@ -309,6 +309,11 @@ export const getProjectById = (id, navigate) => async (dispatch) => {
 };
 
 export const updateProjectById = (id, data, navigate) => async (dispatch) => {
+  const loggedUser = localStorage.getItem("logged-user")
+    ? JSON.parse(localStorage.getItem("logged-user"))
+    : null;
+
+  data.userId = loggedUser?._id;
   await axios
     .put(UPDATE_PROJECT_BY_ID(id), data, {
       headers: {
@@ -531,9 +536,9 @@ export const deleteTaskById = (id, navigate) => async (dispatch) => {
     });
 };
 
-export const getAllActivity = (navigate) => async (dispatch) => {
+export const getAllActivity = (navigate, loadMore) => async (dispatch) => {
   await axios
-    .get(GET_ALL_ACTIVITY, {
+    .get(GET_ALL_ACTIVITY(loadMore), {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
@@ -545,7 +550,12 @@ export const getAllActivity = (navigate) => async (dispatch) => {
       } else if (unauthorize) {
         userUnauthorize(navigate);
       } else {
-        dispatch({ type: SET_ALL_ACTIVITY, payload: data });
+        if (loadMore && loadMore - 10 === data?.length) {
+          dispatch({ type: SET_DISABLE_LOAD_MORE, payload: true });
+        } else {
+          dispatch({ type: SET_ALL_ACTIVITY, payload: data });
+          dispatch({ type: SET_DISABLE_LOAD_MORE, payload: false });
+        }
       }
     })
     .catch((err) => {
@@ -553,13 +563,12 @@ export const getAllActivity = (navigate) => async (dispatch) => {
     });
 };
 
-export const getMyTasks = (navigate) => async (dispatch) => {
+export const getMyTasks = (navigate, value) => async (dispatch) => {
   const loggedUser = localStorage.getItem("logged-user")
     ? JSON.parse(localStorage.getItem("logged-user"))
     : null;
-
   await axios
-    .get(GET_MY_TASKS(loggedUser?._id), {
+    .get(GET_MY_TASKS(loggedUser?._id, value), {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },

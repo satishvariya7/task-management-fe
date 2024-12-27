@@ -12,7 +12,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
   AccountCircle,
   AccountTree,
@@ -36,6 +36,10 @@ const ManageProfile = (props) => {
   const imgSrc = props?.userProfile?.image
     ? `http://localhost:8000/users/images/${props?.userProfile?.image}`
     : "";
+
+    const location = useLocation();
+
+  const isActive = (path) => location.pathname === path;
 
   const loggedUser = localStorage.getItem("logged-user")
     ? JSON.parse(localStorage.getItem("logged-user"))
@@ -85,7 +89,14 @@ const ManageProfile = (props) => {
         <Box sx={{ overflow: "auto" }}>
           <List>
             <ListItem disablePadding>
-              <ListItemButton onClick={() => navigate("/my-task")}>
+              <ListItemButton
+                onClick={() => navigate("/my-task")}
+                sx={{
+                  backgroundColor: isActive("/my-task")
+                    ? "#e0e0e0"
+                    : "transparent",
+                }}
+              >
                 <ListItemIcon>
                   <Task />
                 </ListItemIcon>
@@ -93,7 +104,14 @@ const ManageProfile = (props) => {
               </ListItemButton>
             </ListItem>
             <ListItem disablePadding>
-              <ListItemButton onClick={() => navigate("/dashboard")}>
+              <ListItemButton
+                onClick={() => navigate("/dashboard")}
+                sx={{
+                  backgroundColor: isActive("/dashboard")
+                    ? "#e0e0e0"
+                    : "transparent",
+                }}
+              >
                 <ListItemIcon>
                   <AccountTree />
                 </ListItemIcon>
@@ -101,7 +119,14 @@ const ManageProfile = (props) => {
               </ListItemButton>
             </ListItem>
             <ListItem disablePadding>
-              <ListItemButton onClick={() => navigate("/activity")}>
+              <ListItemButton
+                onClick={() => navigate("/activity")}
+                sx={{
+                  backgroundColor: isActive("/activity")
+                    ? "#e0e0e0"
+                    : "transparent",
+                }}
+              >
                 <ListItemIcon>
                   <Preview />
                 </ListItemIcon>
@@ -111,7 +136,14 @@ const ManageProfile = (props) => {
             {(loggedUser?.category === "admin" ||
               loggedUser?.category === "project-manager") && (
               <ListItem disablePadding>
-                <ListItemButton onClick={() => navigate("/projects")}>
+                <ListItemButton
+                  onClick={() => navigate("/projects")}
+                  sx={{
+                    backgroundColor: isActive("/projects")
+                      ? "#e0e0e0"
+                      : "transparent",
+                  }}
+                >
                   <ListItemIcon>
                     <ManageSearch />
                   </ListItemIcon>
@@ -120,7 +152,14 @@ const ManageProfile = (props) => {
               </ListItem>
             )}
             <ListItem disablePadding>
-              <ListItemButton onClick={() => navigate("/profile")}>
+              <ListItemButton
+                onClick={() => navigate("/profile")}
+                sx={{
+                  backgroundColor: isActive("/profile")
+                    ? "#e0e0e0"
+                    : "transparent",
+                }}
+              >
                 <ListItemIcon>
                   <AccountCircle />
                 </ListItemIcon>
@@ -128,7 +167,14 @@ const ManageProfile = (props) => {
               </ListItemButton>
             </ListItem>
             <ListItem disablePadding>
-              <ListItemButton onClick={() => handleLogout(navigate)}>
+              <ListItemButton
+                onClick={() => handleLogout(navigate)}
+                sx={{
+                  backgroundColor: isActive("/logout")
+                    ? "#e0e0e0"
+                    : "transparent",
+                }}
+              >
                 <ListItemIcon>
                   <Logout color="error" />
                 </ListItemIcon>

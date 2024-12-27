@@ -27,21 +27,25 @@ import dayjs from "dayjs";
 const MyTaskTableDashboard = (props) => {
   const navigate = useNavigate();
   const [filteredData, setFilteredData] = useState(null);
-  const [value, setValue] = useState({ status: 0, priority: 0, dueDate: 0 });
+  const [value, setValue] = useState(null);
 
   useEffect(() => {
     props?.getMyTasks(navigate);
   }, []);
 
+  useEffect(() => {
+    if (value) {
+      const encodedValue = encodeURIComponent(JSON.stringify(value));
+      props?.getMyTasks(navigate, encodedValue);
+    }
+  }, [value]);
+
   const handleOnChang = (e, name) => {
-    const { myTask } = props;
     if (name === "dueDate") {
       const currentDate = e ? e.format("DD-MM-YYYY") : "";
-      setFilteredData(myTask?.filter((i) => i?.dueDate === currentDate));
+      setValue({ ...value, [name]: currentDate });
     } else {
-      const value = e.target.value;
-      setFilteredData(myTask?.filter((i) => i[name] === value));
-      setValue({ ...value, [name]: value });
+      setValue({ ...value, [name]: e.target.value });
     }
   };
 
@@ -56,7 +60,6 @@ const MyTaskTableDashboard = (props) => {
               label="Status"
               value={value?.status || 0}
               size="small"
-              disabled={props?.myTask?.length === 0}
               onChange={(e) => handleOnChang(e, "status")}
             >
               <MenuItem disabled value={0}>
@@ -72,7 +75,6 @@ const MyTaskTableDashboard = (props) => {
           <FormControl>
             <InputLabel>Priority</InputLabel>
             <Select
-              disabled={props?.myTask?.length === 0}
               value={value?.priority || 0}
               sx={{ width: "150px", height: "54px" }}
               label="Priority"
@@ -92,7 +94,6 @@ const MyTaskTableDashboard = (props) => {
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DemoContainer components={["DatePicker"]}>
               <DatePicker
-                disabled={props?.myTask?.length === 0}
                 minDate={dayjs()}
                 onChange={(e) => handleOnChang(e, "dueDate")}
                 slotProps={{
@@ -107,10 +108,10 @@ const MyTaskTableDashboard = (props) => {
         </Grid2>
         <Grid2 size={2}>
           <Button
-            disabled={props?.myTask?.length === 0}
             onClick={() => {
               setFilteredData(null);
-              setValue({ status: 0, priority: 0, dueDate: 0 });
+              setValue(null);
+              props?.getMyTasks(navigate);
             }}
             size="large"
             color="error"
