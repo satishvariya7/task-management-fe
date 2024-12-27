@@ -45,8 +45,8 @@ const ActivityTableDashboard = (props) => {
             <TableBody>
               {props?.activity?.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={4} align="center" className="text-danger">
-                    User list is empty!
+                  <TableCell colSpan={5} align="center" className="text-danger">
+                    Activity list is empty!
                   </TableCell>
                 </TableRow>
               ) : (
@@ -54,10 +54,10 @@ const ActivityTableDashboard = (props) => {
                   <React.Fragment key={activity?._id}>
                     <TableRow>
                       <TableCell align="center">
-                        {activity?.userName || ""}
+                        {activity?.userName || "-"}
                       </TableCell>
                       <TableCell align="center">
-                        {activity?.category || ""}
+                        {activity?.category || "-"}
                       </TableCell>
                       <TableCell align="center">
                         {activity?.activity || ""}
@@ -77,7 +77,7 @@ const ActivityTableDashboard = (props) => {
         </TableContainer>
       </Grid2>
       <Grid2 size={12} className="justify-content-center d-flex">
-        {!props?.loadMoreBtn && (
+        {!props?.loadMoreBtn && props?.activity?.length !== 0 && (
           <Button
             onClick={() =>
               props?.getAllActivity(navigate, props?.activity?.length + 10)
