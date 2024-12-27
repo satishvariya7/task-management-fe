@@ -101,7 +101,7 @@ const UserProfile = (props) => {
 
   const handleSaveClick = () => {
     const isValid = formValidation();
-    if (isValid) {
+    if (isValid) {      
       props.updateUserById(id, data, navigate);
     }
   };

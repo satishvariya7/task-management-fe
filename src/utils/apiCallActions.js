@@ -161,7 +161,11 @@ export const getUserById = (id, navigate) => async (dispatch) => {
 export const updateUserById = (id, data, navigate) => async (dispatch) => {
   const formdata = new FormData();
   Object.keys(data)?.forEach((key) => {
-    formdata?.append(key, data[key]);
+    if (Array.isArray(data[key])) {
+      data[key].forEach((item) => formdata.append(key, item));
+    } else {
+      formdata.append(key, data[key]);
+    }
   });
   const newData = typeof data?.image === "string" ? data : formdata;
   await axios
