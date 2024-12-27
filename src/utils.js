@@ -21,9 +21,9 @@ export const EMAIL_EXPRESSION =
 
 export const CATEGORY_ITEMS = [
   { label: "Select category", disable: true, value: 0 },
-  { label: "Admin", value: "admin" },
-  { label: "Project Manager", value: "project-manager" },
-  { label: "Team Member", value: "team-member" },
+  { label: "Admin", value: "Admin" },
+  { label: "Project Manager", value: "Project Manager" },
+  { label: "Team Member", value: "Team Member" },
 ];
 
 export const TASK_TABLE_HEADERS = [

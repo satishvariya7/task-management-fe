@@ -136,7 +136,7 @@ const ManageProject = (props) => {
               </ListItemButton>
             </ListItem>
             {(loggedUser?.category === "admin" ||
-              loggedUser?.category === "project-manager") && (
+              loggedUser?.category === "Project Manager") && (
               <ListItem disablePadding>
                 <ListItemButton
                   onClick={() => navigate("/projects")}
@@ -189,7 +189,7 @@ const ManageProject = (props) => {
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <Toolbar />
         {(loggedUser?.category === "admin" ||
-          loggedUser?.category === "project-manager") && (
+          loggedUser?.category === "Project Manager") && (
           <Grid2 container spacing={2}>
             <Grid2 size={12}>
               <Typography align="center" variant="h5">

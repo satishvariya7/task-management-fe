@@ -105,7 +105,7 @@ const TaskDashboard = (props) => {
                   </TableCell>
                   <TableCell align="center">
                     {tasks?.userId === loggedUser?._id ||
-                    loggedUser?.category === "project-manager" ? (
+                    loggedUser?.category === "Project Manager" ? (
                       <Fragment>
                         <IconButton
                           onClick={() => navigate(`/edit-task/${tasks?._id}`)}

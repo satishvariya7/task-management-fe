@@ -135,7 +135,7 @@ const MyTask = (props) => {
               </ListItemButton>
             </ListItem>
             {(loggedUser?.category === "admin" ||
-              loggedUser?.category === "project-manager") && (
+              loggedUser?.category === "Project Manager") && (
               <ListItem disablePadding>
                 <ListItemButton
                   onClick={() => navigate("/projects")}
