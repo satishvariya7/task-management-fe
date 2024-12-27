@@ -24,7 +24,7 @@ In Manage Task Tab have all Task and Only Task creator or Project Manage can mod
 ### Activity :
 In Activity Tab have all Activity of Task.
 ### Manage Project :
-In Manage Project Tab have List of all project and Create project, All users can create and modify project.
+In Manage Project Tab have List of all project and Create project, Only Admin or Project Manager can see this tab and create or modify project.
 ### Manage Profile :
 In this Tab User can read or update there details.
 
