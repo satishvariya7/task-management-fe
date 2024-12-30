@@ -5,6 +5,7 @@ import {
   ADD_TASK,
   DELETE_PROJECT_BY_ID,
   DELETE_TASK_BY_ID,
+  GET_ACTIVITY_LENGTH,
   GET_ALL_ACTIVITY,
   GET_ALL_PROJECTS,
   GET_ALL_TASKS,
@@ -14,6 +15,7 @@ import {
   GET_USER_BY_ID,
   GET_USER_PROFILE,
   GET_USERS,
+  SET_ACTIVITY_COUNT,
   SET_ALL_ACTIVITY,
   SET_DISABLE_LOAD_MORE,
   SET_EXIST_EMAIL,
@@ -550,32 +552,37 @@ export const deleteTaskById = (id, navigate) => async (dispatch) => {
     });
 };
 
-export const getAllActivity = (navigate, loadMore) => async (dispatch) => {
-  await axios
-    .get(GET_ALL_ACTIVITY(loadMore), {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    })
-    .then((res) => {
-      const { isError, message, data, unauthorize } = res.data;
-      if (isError) {
-        console.log("Error in getAllActivity is ==>", message);
-      } else if (unauthorize) {
-        userUnauthorize(navigate);
-      } else {
-        if (loadMore && loadMore - 10 === data?.length) {
-          dispatch({ type: SET_DISABLE_LOAD_MORE, payload: true });
+export const getAllActivity =
+  (navigate, loadMore, value, skip) => async (dispatch) => {
+    let url = GET_ALL_ACTIVITY(loadMore);
+    const skipRecord = skip ? skip : 0;
+    if (value && value !== 0) url = `${url}/${value}/${skipRecord}`;
+    else url = `${url}/none/${skipRecord}`;
+    await axios
+      .get(url, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
+      .then((res) => {
+        const { isError, message, data, unauthorize } = res.data;
+        if (isError) {
+          console.log("Error in getAllActivity is ==>", message);
+        } else if (unauthorize) {
+          userUnauthorize(navigate);
         } else {
-          dispatch({ type: SET_ALL_ACTIVITY, payload: data });
-          dispatch({ type: SET_DISABLE_LOAD_MORE, payload: false });
+          if (loadMore && loadMore - 10 === data?.length) {
+            dispatch({ type: SET_DISABLE_LOAD_MORE, payload: true });
+          } else {
+            dispatch({ type: SET_ALL_ACTIVITY, payload: data });
+            dispatch({ type: SET_DISABLE_LOAD_MORE, payload: false });
+          }
         }
-      }
-    })
-    .catch((err) => {
-      console.log("Error in getAllActivity is ==>", err.message);
-    });
-};
+      })
+      .catch((err) => {
+        console.log("Error in getAllActivity is ==>", err.message);
+      });
+  };
 
 export const getMyTasks = (navigate, value) => async (dispatch) => {
   const loggedUser = localStorage.getItem("logged-user")
@@ -599,5 +606,26 @@ export const getMyTasks = (navigate, value) => async (dispatch) => {
     })
     .catch((err) => {
       console.log("Error in getMyTasks is ==>", err.message);
+    });
+};
+export const getActivityCount = (navigate, search) => async (dispatch) => {
+  await axios
+    .get(GET_ACTIVITY_LENGTH(search), {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
+    .then((res) => {
+      const { isError, message, total, unauthorize } = res.data;
+      if (isError) {
+        console.log("Error in getActivityCount is ==>", message);
+      } else if (unauthorize) {
+        userUnauthorize(navigate);
+      } else {
+        dispatch({ type: SET_ACTIVITY_COUNT, payload: total });
+      }
+    })
+    .catch((err) => {
+      console.log("Error in getActivityCount is ==>", err.message);
     });
 };

@@ -15,6 +15,7 @@ export const SET_SINGLE_TASK = "SET_SINGLE_TASK";
 
 export const SET_ALL_ACTIVITY = "SET_ALL_ACTIVITY";
 export const SET_DISABLE_LOAD_MORE = "SET_DISABLE_LOAD_MORE";
+export const SET_ACTIVITY_COUNT = "SET_ACTIVITY_COUNT";
 
 export const EMAIL_EXPRESSION =
   /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -84,6 +85,10 @@ export const GET_USER_TASK_BY_ID = (id) =>
 export const GET_ALL_ACTIVITY = (more) => {
   if (more) return `http://localhost:8000/activity/all/${more}`;
   else return `http://localhost:8000/activity/all/10`;
+};
+export const GET_ACTIVITY_LENGTH = (search) => {
+  if (search) return `http://localhost:8000/activity/count/${search}`;
+  else return `http://localhost:8000/activity/count/all`;
 };
 
 export const handleLogout = (navigate) => {
